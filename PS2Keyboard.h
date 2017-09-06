@@ -225,6 +225,12 @@ class PS2Keyboard {
      */
     static int read();
     static int readUnicode();
+
+     /**
+      * Returns the car last read from the keyboard but don´t clear buffer.
+      * If there is no char available, -1 is returned.
+      */
+    static int peek();
 };
 
 #endif

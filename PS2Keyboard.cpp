@@ -444,6 +444,26 @@ int PS2Keyboard::read() {
 	return result;
 }
 
+int PS2Keyboard::peek() {
+	uint8_t result;
+
+	result = UTF8next;
+	if (result) {
+		UTF8next = 0;
+	} else {
+		result = CharBuffer;
+		if (!result) {
+			result = get_iso8859_code();
+		}
+		if (result >= 128) {
+			UTF8next = (result & 0x3F) | 0x80;
+			result = ((result >> 6) & 0x1F) | 0xC0;
+		}
+	}
+	if (!result) return -1;
+	return result;
+}
+
 int PS2Keyboard::readUnicode() {
 	int result;
 
